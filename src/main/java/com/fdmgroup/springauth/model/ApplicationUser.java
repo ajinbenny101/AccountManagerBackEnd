@@ -36,6 +36,7 @@ public class ApplicationUser implements UserDetails{
 			joinColumns= {@JoinColumn(name="user_id")},
 			inverseJoinColumns= {@JoinColumn(name="role_id")}
 			)
+	//authorities unique to each user
 	private Set<Role> authorities;
 	
 	
@@ -70,7 +71,7 @@ public class ApplicationUser implements UserDetails{
 	}
 
 
-
+	
 	public void setAuthorities(Set<Role> authorities) {
 		this.authorities = authorities;
 	}
@@ -86,7 +87,7 @@ public class ApplicationUser implements UserDetails{
 	}
 
 
-
+	//wild card type, returns a collection of some unknown type that extends Granted Authority 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;
@@ -101,22 +102,23 @@ public class ApplicationUser implements UserDetails{
 	public String getUsername() {
 		return this.username;
 	}
-
+	
+	//not implemented
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-
+	//not implemented
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
-
+	//not implemented
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-
+	//not implemented
 	@Override
 	public boolean isEnabled() {
 		return true;

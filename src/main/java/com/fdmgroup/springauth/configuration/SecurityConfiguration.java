@@ -51,9 +51,14 @@ public class SecurityConfiguration {
 		return new ProviderManager(daoProvider);
 	}
 	
+	//Security filter chain is a default spring security class
+	//sets the properties of the httpsecurity object passed in
+	//csrf cross site request forgery disabling it
+	//authorize http requests allows dev to specify whether to restrict an
+	//end point and to authenticate requests to that endpoint
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
+		
 		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> {
 			auth.requestMatchers("/auth/register").permitAll();
 			auth.requestMatchers("/auth/login").permitAll();
@@ -62,6 +67,7 @@ public class SecurityConfiguration {
 			auth.anyRequest().authenticated();
 		});
 		
+		
 		http
 		.oauth2ResourceServer()
 		.jwt()
@@ -69,6 +75,8 @@ public class SecurityConfiguration {
 		http
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
+		//used to allow access to h2 console, as far as can tell
+		//legacy code
 		http.headers().frameOptions().disable();
 
 		return http.build();
