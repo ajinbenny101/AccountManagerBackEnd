@@ -22,7 +22,7 @@ public class Placements {
 	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "placementsgen")
 	//@SequenceGenerator(name = "placementsgen", sequenceName = "placements_id_seq", allocationSize = 1)
 	@Column(name = "placement_id", columnDefinition = "INT")
-	private long id;
+	private int id;
 	@Column(name = "name_of_company")
 	private String nameOfCompany;
 	@Column(name = "job_title")
@@ -50,7 +50,7 @@ public class Placements {
 			)
 	private List<Skills> skills;
 	
-	public Placements(long id, String nameOfCompany, String jobTitle, String startDate, String endDate,
+	public Placements(int id, String nameOfCompany, String jobTitle, String startDate, String endDate,
 			String expectedEndDate, String postedOn, String placementFilledOn, String location, boolean ongoing,
 			Consultants consultants) {
 		super();
@@ -71,11 +71,11 @@ public class Placements {
 		super();
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
