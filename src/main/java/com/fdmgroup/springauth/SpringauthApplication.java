@@ -21,6 +21,8 @@ public class SpringauthApplication {
 		SpringApplication.run(SpringauthApplication.class, args);
 	}
 	
+	//if admin role doesn't exist in the database persists the roles we are using and an admin user
+	//is required as password has to be hashed by password encoder
 	@Bean
 
     CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {

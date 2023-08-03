@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="roles")
+//granted authority allows role based authentication
 public class Role implements GrantedAuthority{
 	
 	@Id
@@ -18,6 +19,7 @@ public class Role implements GrantedAuthority{
 	@Column(name="role_id")
 	private Integer roleId;
 	
+	//authority just a string
 	private String authority;
 	
 	
