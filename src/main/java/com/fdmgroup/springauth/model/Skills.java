@@ -19,7 +19,7 @@ public class Skills {
 	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "skillgen")
 	//@SequenceGenerator(name = "skillgen", sequenceName = "skill_id_seq", allocationSize = 1)
 	@Column(name="skill_id", columnDefinition = "INT")
-	private long id;
+	private int id;
 	private String ability;
 	@Column(name="skill_name")
 	private String skillName;
@@ -28,7 +28,7 @@ public class Skills {
 	@ManyToMany(mappedBy="skills")
 	List<Placements> placements;
 	
-	public Skills(long id, String ability, String skillName, List<Consultants> consultants,
+	public Skills(int id, String ability, String skillName, List<Consultants> consultants,
 			List<Placements> placements) {
 		super();
 		this.id = id;
@@ -42,11 +42,11 @@ public class Skills {
 		super();
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
