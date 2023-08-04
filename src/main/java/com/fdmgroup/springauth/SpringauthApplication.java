@@ -23,28 +23,21 @@ public class SpringauthApplication {
 	
 	//if admin role doesn't exist in the database persists the roles we are using and an admin user
 	//is required as password has to be hashed by password encoder
+	//no longer needed as data already in database, but leaving it in anyway
 	@Bean
-
     CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
 
         return args -> {
-
             if(roleRepository.findByAuthority("ADMIN").isPresent()) return;
             Role adminRole = roleRepository.save(new Role("ADMIN"));
             roleRepository.save(new Role("USER"));
 
-            
-
             Set<Role> roles = new HashSet<>();
             roles.add(adminRole);
-
-            
 
             ApplicationUser admin = new ApplicationUser(1, "admin", passwordEncoder.encode("password"), roles);
             userRepository.save(admin);
 
         };
-
-    }
-	
+    }	
 }
