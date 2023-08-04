@@ -29,6 +29,8 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+// security implemented following tutorial
+//https://www.youtube.com/watch?v=TeBt0Ike_Tk
 @Configuration
 public class SecurityConfiguration {
 	
@@ -37,12 +39,16 @@ public class SecurityConfiguration {
 	public SecurityConfiguration(RSAKeyProperties keys) {
 		this.keys = keys;
 	}
-
+	
+	//defines the implementation of password encoder for use in application
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
+	//allows spring to tell if user is to be authenticated
+	//as a bean, allows use in other parts of the application.
+	//dao used to encapsulate data sent to server
 	@Bean
 	public AuthenticationManager authManager(UserDetailsService detailsService) {
 		DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
