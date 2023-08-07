@@ -22,12 +22,15 @@ import com.fdmgroup.springauth.repository.UserRepository;
 @Transactional
 public class AuthenticationService {
 	
+	//create/retrieves users
 	@Autowired
 	private UserRepository userRepository;
 	
+	//retrieves roles to add to users
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	//encodes password when registering user
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -37,6 +40,9 @@ public class AuthenticationService {
 	@Autowired
 	private TokenService tokenService;
 	
+	//encodes password,
+	//adds role to user
+	//saves user
 	public ApplicationUser registerUser(String username, String password) {
 		String encodedPassword = passwordEncoder.encode(password);
 		

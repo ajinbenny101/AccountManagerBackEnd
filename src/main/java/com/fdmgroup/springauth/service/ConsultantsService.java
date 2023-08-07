@@ -68,6 +68,23 @@ public List<Consultants> allConsultants(){
 		
 	}
 	
+
+	
+	public List<Consultants> findByName(String name) {
+        String[] names = name.split("\\s");
+        if(names.length == 2) {
+            if(consultantsRepo.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(names[0], names[1]).isPresent())
+            return consultantsRepo.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(names[0], names[1]).get();
+
+        } else {
+            if(consultantsRepo.findByFirstNameIgnoreCaseOrLastNameIgnoreCase(name, name).isPresent()) {
+                return consultantsRepo.findByFirstNameIgnoreCaseOrLastNameIgnoreCase(name, name).get();
+
+            }
+
+        }
+		return null;
+    }
 	
 	
 
