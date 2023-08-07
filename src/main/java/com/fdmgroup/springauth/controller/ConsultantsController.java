@@ -95,6 +95,17 @@ public class ConsultantsController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+        
     }
+	 @GetMapping("/geoflex/{geoflexId}")
+	    public ResponseEntity<List<Consultants>> getConsultantsByGeoflexId(@PathVariable int geoflexId) {
+	        List<Consultants> consultants = consultantsService.findByGeoflexId(geoflexId);
+
+	        if (!consultants.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.OK).body(consultants);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        }
+	    }
 
 }
