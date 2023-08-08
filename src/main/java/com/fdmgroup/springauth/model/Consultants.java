@@ -58,7 +58,6 @@ public class Consultants {
 	private Streams stream;
 	private String postcode;
 	private String cv;
-
 	@ManyToMany
 	@JoinTable(
 			name="consultant_interests",
