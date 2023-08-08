@@ -1,5 +1,6 @@
 package com.fdmgroup.springauth.model;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,22 +24,22 @@ public class Placements {
 	//@SequenceGenerator(name = "placementsgen", sequenceName = "placements_id_seq", allocationSize = 1)
 	@Column(name = "placement_id", columnDefinition = "INT")
 	private int id;
-	@Column(name = "name_of_company")
+	@Column(name = "name_company")
 	private String nameOfCompany;
 	@Column(name = "job_title")
 	private String jobTitle;
 	@Column(name = "start_date")
-	private String startDate;
+	private Date startDate;
 	@Column(name = "end_date")
-	private String endDate;
-	@Column(name = "expected_end_date")
-	private String expectedEndDate;
-	@Column(name = "posted_on")
-	private String postedOn;
-	@Column(name = "placement_filled_on")
-	private String placementFilledOn;
+	private Date endDate;
+	//@Column(name = "expected_end_date")
+	//private String expectedEndDate;
+	//@Column(name = "posted_on")
+	//private String postedOn;
+	//@Column(name = "placement_filled_on")
+	//private String placementFilledOn;
 	private String location;
-	private boolean ongoing;
+	private byte ongoing;
 	@ManyToOne
 	@JoinColumn(name="consultant_id", nullable=true)
 	private Consultants consultant;
@@ -49,9 +50,24 @@ public class Placements {
 			inverseJoinColumns= @JoinColumn(name="skill_id")
 			)
 	private List<Skills> skills;
+	@ManyToOne
+	@JoinColumn(name="job_field_id")
+	private JobField jobField;
+	@ManyToOne
+	@JoinColumn(name="stream_code")
+	private Streams stream;
 	
-	public Placements(int id, String nameOfCompany, String jobTitle, String startDate, String endDate,
-			String expectedEndDate, String postedOn, String placementFilledOn, String location, boolean ongoing,
+	@JsonIgnore
+	public Streams getStream() {
+		return stream;
+	}
+
+	public void setStream(Streams stream) {
+		this.stream = stream;
+	}
+
+	public Placements(int id, String nameOfCompany, String jobTitle, Date startDate, Date endDate,
+			/*String expectedEndDate, String postedOn, String placementFilledOn,*/ String location, byte ongoing,
 			Consultants consultants) {
 		super();
 		this.id = id;
@@ -59,14 +75,34 @@ public class Placements {
 		this.jobTitle = jobTitle;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.expectedEndDate = expectedEndDate;
-		this.postedOn = postedOn;
-		this.placementFilledOn = placementFilledOn;
+		//this.expectedEndDate = expectedEndDate;
+		//this.postedOn = postedOn;
+		//this.placementFilledOn = placementFilledOn;
 		this.location = location;
 		this.ongoing = ongoing;
 		this.consultant = consultants;
 	}
 	
+	public Consultants getConsultant() {
+		return consultant;
+	}
+
+	public void setConsultant(Consultants consultant) {
+		this.consultant = consultant;
+	}
+
+	public JobField getJobField() {
+		return jobField;
+	}
+
+	public void setJobField(JobField jobField) {
+		this.jobField = jobField;
+	}
+
+	public void setSkills(List<Skills> skills) {
+		this.skills = skills;
+	}
+
 	public Placements() {
 		super();
 	}
@@ -95,45 +131,45 @@ public class Placements {
 		this.jobTitle = jobTitle;
 	}
 
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
-	public String getExpectedEndDate() {
-		return expectedEndDate;
-	}
+	//public String getExpectedEndDate() {
+		//return expectedEndDate;
+	//}
 
-	public void setExpectedEndDate(String expectedEndDate) {
-		this.expectedEndDate = expectedEndDate;
-	}
+	//public void setExpectedEndDate(String expectedEndDate) {
+		//this.expectedEndDate = expectedEndDate;
+	//}
 
-	public String getPostedOn() {
-		return postedOn;
-	}
+	//public String getPostedOn() {
+		//return postedOn;
+	//}
 
-	public void setPostedOn(String postedOn) {
-		this.postedOn = postedOn;
-	}
+	//public void setPostedOn(String postedOn) {
+		//this.postedOn = postedOn;
+	//}
 
-	public String getPlacementFilledOn() {
-		return placementFilledOn;
-	}
+	//public String getPlacementFilledOn() {
+		//return placementFilledOn;
+	//}
 
-	public void setPlacementFilledOn(String placementFilledOn) {
-		this.placementFilledOn = placementFilledOn;
-	}
+	//public void setPlacementFilledOn(String placementFilledOn) {
+		//this.placementFilledOn = placementFilledOn;
+	//}
 
 	public String getLocation() {
 		return location;
@@ -143,11 +179,11 @@ public class Placements {
 		this.location = location;
 	}
 
-	public boolean getOngoing() {
+	public byte getOngoing() {
 		return ongoing;
 	}
 
-	public void setOngoing(boolean ongoing) {
+	public void setOngoing(byte ongoing) {
 		this.ongoing = ongoing;
 	}
 
