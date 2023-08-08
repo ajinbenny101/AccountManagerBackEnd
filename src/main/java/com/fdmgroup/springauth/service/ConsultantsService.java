@@ -85,7 +85,10 @@ public List<Consultants> allConsultants(){
         }
 		return null;
     }
-	
+	 public List<Consultants> findByGeoflexId(int geoflexId) {
+	        return consultantsRepo.findByGeoflexId(geoflexId);
+	    }
+
 	
 
 }

@@ -13,4 +13,5 @@ public interface ConsultantsRepository extends JpaRepository<Consultants, Intege
 
 	Optional<List<Consultants>>findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
 	Optional<List<Consultants>>findByFirstNameIgnoreCaseOrLastNameIgnoreCase(String firstName, String lastName);
+	 List<Consultants> findByGeoflexId(int geoflexId);
 }
