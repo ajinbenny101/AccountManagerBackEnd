@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.fdmgroup.springauth.exceptions.ConsultantExistsException;
-import com.fdmgroup.springauth.exceptions.ConsultantNotFoundException;
+import com.fdmgroup.springauth.exceptions.ExistsException;
+import com.fdmgroup.springauth.exceptions.NotFoundException;
 import com.fdmgroup.springauth.model.Consultants;
 import com.fdmgroup.springauth.service.ConsultantsService;
 
@@ -45,7 +45,7 @@ public class ConsultantsController {
 
 
 	@GetMapping("/{id}")
-    public ResponseEntity<Consultants> getConsultantById(@PathVariable int id) throws ConsultantNotFoundException {
+    public ResponseEntity<Consultants> getConsultantById(@PathVariable int id) throws NotFoundException {
         Consultants consultant = consultantsService.getConsultantById(id);
         if (consultant != null) {
             return ResponseEntity.status(HttpStatus.OK).body(consultant);
@@ -55,7 +55,7 @@ public class ConsultantsController {
     }
 	
 	@PutMapping("/{id}")
-    public ResponseEntity<Consultants> updateConsultant(@PathVariable int id, @RequestBody Consultants consultant) throws ConsultantNotFoundException {
+    public ResponseEntity<Consultants> updateConsultant(@PathVariable int id, @RequestBody Consultants consultant) throws NotFoundException {
         consultant.setId(id);
         Consultants updatedConsultant = consultantsService.updateConsultant(consultant);
         if (updatedConsultant != null) {
@@ -66,7 +66,7 @@ public class ConsultantsController {
     }
 	
 	@PostMapping
-	public ResponseEntity<Consultants> addConsultant(@RequestBody Consultants consultant) throws ConsultantExistsException {
+	public ResponseEntity<Consultants> addConsultant(@RequestBody Consultants consultant) throws ExistsException {
 	Consultants addedConsultant = consultantsService.addConsultant(consultant);
 	URI location = ServletUriComponentsBuilder
 				   .fromCurrentRequest()
@@ -81,7 +81,7 @@ public class ConsultantsController {
 	//We have changed the database to use on delete set null where the consultant is referenced as a foreign key elsewhere. 
 	//This makes sense to keep placements even when you delete consultant but has also been done for qualifications, consultant_geoflex etc.. which may need to be deleted too.
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteConsultantById(@PathVariable int id) throws ConsultantNotFoundException {
+	public ResponseEntity<Void> deleteConsultantById(@PathVariable int id) throws NotFoundException {
 	consultantsService.deleteConsultantById(id);
 	return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}

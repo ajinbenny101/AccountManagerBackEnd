@@ -1,10 +1,10 @@
 package com.fdmgroup.springauth.exceptions;
 
-public class ConsultantExistsException extends Exception {
+public class ExistsException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public ConsultantExistsException(String message) {
+	public ExistsException(String message) {
 		super(message);
 	}
 

@@ -52,7 +52,7 @@ public class Placements {
 	
 	public Placements(int id, String nameOfCompany, String jobTitle, String startDate, String endDate,
 			String expectedEndDate, String postedOn, String placementFilledOn, String location, boolean ongoing,
-			Consultants consultants) {
+			Consultants consultant) {
 		super();
 		this.id = id;
 		this.nameOfCompany = nameOfCompany;
@@ -64,7 +64,7 @@ public class Placements {
 		this.placementFilledOn = placementFilledOn;
 		this.location = location;
 		this.ongoing = ongoing;
-		this.consultant = consultants;
+		this.consultant = consultant;
 	}
 	
 	public Placements() {
