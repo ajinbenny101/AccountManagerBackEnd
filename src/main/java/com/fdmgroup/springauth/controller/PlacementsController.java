@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fdmgroup.springauth.exceptions.ExistsException;
+import com.fdmgroup.springauth.exceptions.NotFoundException;
 import com.fdmgroup.springauth.model.Placements;
 import com.fdmgroup.springauth.service.PlacementsService;
 
@@ -37,7 +39,7 @@ public class PlacementsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Placements> getPlacementById(@PathVariable int id) {
+    public ResponseEntity<Placements> getPlacementById(@PathVariable int id)throws NotFoundException {
         // Implement logic to get placement by id from placementsService
         Placements placement = placementsService.getPlacementById(id);
         if (placement != null) {
@@ -48,7 +50,7 @@ public class PlacementsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Placements> updatePlacement(@PathVariable int id, @RequestBody Placements placement) {
+    public ResponseEntity<Placements> updatePlacement(@PathVariable int id, @RequestBody Placements placement)throws NotFoundException {
         // Implement logic to update placement by id using placementsService
         placement.setId(id);
         Placements updatedPlacement = placementsService.updatePlacement(placement);
@@ -60,7 +62,7 @@ public class PlacementsController {
     }
 
     @PostMapping
-    public ResponseEntity<Placements> addPlacement(@RequestBody Placements placement) {
+    public ResponseEntity<Placements> addPlacement(@RequestBody Placements placement) throws ExistsException{
         // Implement logic to add a new placement using placementsService
         Placements addedPlacement = placementsService.addPlacement(placement);
         URI location = ServletUriComponentsBuilder
@@ -72,7 +74,7 @@ public class PlacementsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlacementById(@PathVariable int id) {
+    public ResponseEntity<Void> deletePlacementById(@PathVariable int id) throws NotFoundException{
         // Implement logic to delete placement by id using placementsService
         placementsService.deletePlacementById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
