@@ -22,6 +22,7 @@ public class Geoflex {
 	//@SequenceGenerator(name = "geoflexgen", sequenceName = "geoflex_id_seq", allocationSize = 1)
 	@Column(name = "geoflex_id", columnDefinition = "INT")
 	private long id;
+	@Column(name="geoflex")
 	private String region;
 	@ManyToMany(mappedBy="geoflex")
 	private List<Consultants> consultants = new ArrayList<>();

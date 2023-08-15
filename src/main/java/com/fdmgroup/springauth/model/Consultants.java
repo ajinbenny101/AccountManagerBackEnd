@@ -3,6 +3,8 @@ package com.fdmgroup.springauth.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 
@@ -20,15 +23,13 @@ public class Consultants {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "consultantsgen")
-	//@SequenceGenerator(name = "consultantsgen", sequenceName = "consultants_id_seq", allocationSize = 1)
-	@Column(name = "consultant_id", columnDefinition = "INT") //hibernate expects bigInt, it is possible you could change the db id fields to bigint if that turns out to be a better solution
+	@Column(name = "consultant_id", columnDefinition = "INT")
 	private int id;
 	@Column(name = "first_name")
 	private String firstName;
 	@Column(name = "last_name")
 	private String lastName;
-	@Column(name = "phone_number")
+	@Column(name = "mobile_number")
 	private String phoneNumber;
 	@Column(name = "fdm_email")
 	private String fdmEmail;
@@ -39,7 +40,6 @@ public class Consultants {
 			name = "consultant_geoflex",
 			joinColumns = @JoinColumn(name="consultant_id"),
 			inverseJoinColumns=@JoinColumn(name="geoflex_id"))
-	
 	private List<Geoflex> geoflex;
 	@OneToMany(mappedBy="consultant")
 	private List<Qualifications> qualifications;
@@ -50,10 +50,55 @@ public class Consultants {
 			inverseJoinColumns=@JoinColumn(name="skill_id")
 			)
 	private List<Skills> skills;
+
 	@OneToMany(mappedBy="consultant")
 	private List<Placements> placements;
+	@ManyToOne
+	@JoinColumn(name="stream_code")
+	private Streams stream;
+	private String postcode;
+	private String cv;
+	@ManyToMany
+	@JoinTable(
+			name="consultant_interests",
+			joinColumns=@JoinColumn(name="consultant_id"),
+			inverseJoinColumns=@JoinColumn(name="interest_code")
+			)
+	private List<Interests> interests;
 	
 	
+	public String getCv() {
+		return cv;
+	}
+
+	public void setCv(String cv) {
+		this.cv = cv;
+	}
+
+	public List<Geoflex> getGeoflex() {
+		return geoflex;
+	}
+
+	public void setGeoflex(List<Geoflex> geoflex) {
+		this.geoflex = geoflex;
+	}
+
+	public Streams getStream() {
+		return stream;
+	}
+
+	public void setStream(Streams stream) {
+		this.stream = stream;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
 	public Consultants() {
 		super();
 	}

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,7 +22,8 @@ public class Skills {
 	//@SequenceGenerator(name = "skillgen", sequenceName = "skill_id_seq", allocationSize = 1)
 	@Column(name="skill_id", columnDefinition = "INT")
 	private int id;
-	private String ability;
+	@Column(name="skill_type")
+	private String skillType;
 	@Column(name="skill_name")
 	private String skillName;
 	@ManyToMany(mappedBy="skills")
@@ -32,7 +35,7 @@ public class Skills {
 			List<Placements> placements) {
 		super();
 		this.id = id;
-		this.ability = ability;
+		this.skillType = ability;
 		this.skillName = skillName;
 		this.consultants = consultants;
 		this.placements = placements;
@@ -51,11 +54,11 @@ public class Skills {
 	}
 
 	public String getAbility() {
-		return ability;
+		return skillType;
 	}
 
 	public void setAbility(String ability) {
-		this.ability = ability;
+		this.skillType = ability;
 	}
 
 	public String getSkillName() {
