@@ -107,5 +107,12 @@ public class ConsultantsController {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	        }
 	    }
+	 
+	 @GetMapping("/beached")
+	 public ResponseEntity<List<Consultants>> getBeachedConsultants(){
+			return ResponseEntity
+				       .status(HttpStatus.OK)
+				       .body(consultantsService.getBeachedConsultants());
+	 }
 
 }
