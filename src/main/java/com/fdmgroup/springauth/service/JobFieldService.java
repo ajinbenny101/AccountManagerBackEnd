@@ -3,9 +3,12 @@ package com.fdmgroup.springauth.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.fdmgroup.springauth.model.JobField;
 import com.fdmgroup.springauth.repository.JobFieldRepository;
 
+@Service
 public class JobFieldService {
 	private final JobFieldRepository jobFieldRepo;
 	

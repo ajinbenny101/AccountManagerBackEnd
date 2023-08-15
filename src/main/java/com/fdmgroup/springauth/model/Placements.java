@@ -83,6 +83,7 @@ public class Placements {
 		this.consultant = consultant;
 	}
 	
+	@JsonIgnore
 	public Consultants getConsultant() {
 		return consultant;
 	}
@@ -90,7 +91,7 @@ public class Placements {
 	public void setConsultant(Consultants consultant) {
 		this.consultant = consultant;
 	}
-
+	@JsonIgnore
 	public JobField getJobField() {
 		return jobField;
 	}
