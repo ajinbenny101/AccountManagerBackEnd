@@ -40,7 +40,7 @@ public class StreamsService {
 		if (streamRepo.existsById(stream.getStreamCode())) {
 			
 		}
-		return streamRepo.save(null);
+		return streamRepo.save(stream);
 	}
 
 	public void deleteByStreamCode(String id) {
