@@ -50,7 +50,7 @@ public class Consultants {
 			inverseJoinColumns=@JoinColumn(name="skill_id")
 			)
 	private List<Skills> skills;
-
+	
 	@OneToMany(mappedBy="consultant")
 	private List<Placements> placements;
 	@ManyToOne

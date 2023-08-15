@@ -33,14 +33,14 @@ public class PlacementsService {
     }
 
     public Placements addPlacement(Placements placement) throws ExistsException{
-    	 if (placementsRepo.existsByNameOfCompanyAndJobTitleAndStartDateAndEndDateAndExpectedEndDateAndPostedOnAndPlacementFilledOnAndLocation(
+    	 if (placementsRepo.existsByNameOfCompanyAndJobTitleAndStartDateAndEndDateAndLocation(
                  placement.getNameOfCompany(),
                  placement.getJobTitle(),
                  placement.getStartDate(),
                  placement.getEndDate(),
-                 placement.getExpectedEndDate(),
-                 placement.getPostedOn(),
-                 placement.getPlacementFilledOn(),
+                 //placement.getExpectedEndDate(),
+                 //placement.getPostedOn(),
+                 //placement.getPlacementFilledOn(),
                  placement.getLocation())) {
              throw new ExistsException("Placement with the same information already exists.");
          }
