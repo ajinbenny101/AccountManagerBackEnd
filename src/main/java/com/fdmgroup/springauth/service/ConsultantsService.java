@@ -89,7 +89,34 @@ public List<Consultants> allConsultants(){
 	        return consultantsRepo.findByGeoflexId(geoflexId);
 	    }
 
-	
+		
+	 
+//		public List<Consultants> findConsultantsWithMatchingSkills(Placements placement) {
+//			List<Consultants> allConsultants = consultantsRepo.findAll();
+//			List<Skills> placementSkills = placement.getSkills();
+//			
+//			return allConsultants.stream()
+//					.filter(consultant -> consultant.getSkills().stream()
+//							.anyMatch(skill -> placementSkills.contains(skill)))
+//					.sorted(Comparator.comparingLong(consultant-> 
+//								calculateMatchingSkillsCount(consultant, placementSkills)
+//							).reversed()
+//							.thenComparing(Comparator.comparingInt(consultant -> consultant.getSkills().size()))
+//							)
+//							.collect(Collectors.toList());
+//		}
+//
+//		private Long calculateMatchingSkillsCount(Consultants consultant, List<Skills> skills) {
+//			 return consultant.getSkills().stream()
+//			            .filter(skill -> skills.contains(skill))
+//			            .count();
+//		}
+		
+		public List<Consultants> getBeachedConsultants(){
+			return consultantsRepo.findConsultantsWithLatestNonOngoingPlacement();
+		}
+		
+		
 
 }
 	
