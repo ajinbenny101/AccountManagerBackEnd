@@ -29,18 +29,25 @@ public class InterestsService {
 	}
 
 	public Interests updateInterest(Interests interest) {
-		// TODO Auto-generated method stub
+		if (interestRepo.existsById(interest.getInterestCode())) {
+			return interestRepo.save(interest);
+		}
 		return null;
 	}
 
 	public Interests addInterest(Interests interest) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Interests> optionalInterest = interestRepo.findById(interest.getInterestCode());
+		if(optionalInterest.isPresent()) {
+			
+		}
+		
+		return interestRepo.save(interest);
 	}
 
 	public void deleteInterestByInterestCode(String id) {
-		// TODO Auto-generated method stub
-		
+		if (interestRepo.existsById(id)) {
+			interestRepo.deleteById(id);
+		}
 	}
 
 }
