@@ -80,7 +80,7 @@ public class Placements {
 		//this.placementFilledOn = placementFilledOn;
 		this.location = location;
 		this.ongoing = ongoing;
-		this.consultant = consultants;
+		this.consultant = consultant;
 	}
 	
 	public Consultants getConsultant() {
