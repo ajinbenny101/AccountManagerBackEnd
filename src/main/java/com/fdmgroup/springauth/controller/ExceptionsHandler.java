@@ -9,21 +9,21 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.fdmgroup.springauth.exceptions.ConsultantExistsException;
-import com.fdmgroup.springauth.exceptions.ConsultantNotFoundException;
+import com.fdmgroup.springauth.exceptions.ExistsException;
+import com.fdmgroup.springauth.exceptions.NotFoundException;
 
 
 
 @ControllerAdvice
-public class ConsultantExceptionHandler {
+public class ExceptionsHandler {
 
-	@ExceptionHandler(value = ConsultantNotFoundException.class)
-	public ResponseEntity<String> handleBookNotFoundException(ConsultantNotFoundException e) {
+	@ExceptionHandler(value = NotFoundException.class)
+	public ResponseEntity<String> handleBookNotFoundException(NotFoundException e) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
 	
-	@ExceptionHandler(value = ConsultantExistsException.class)
-	public ResponseEntity<String> handleEmployeeExistsException(ConsultantExistsException e) {
+	@ExceptionHandler(value = ExistsException.class)
+	public ResponseEntity<String> handleEmployeeExistsException(ExistsException e) {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 	}
 	
