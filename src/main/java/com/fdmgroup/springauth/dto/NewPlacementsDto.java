@@ -9,6 +9,7 @@ import com.fdmgroup.springauth.model.Skills;
 import com.fdmgroup.springauth.model.Streams;
 
 public class NewPlacementsDto {
+	private int id;
 	private String nameOfCompany;
 	private String jobTitle;
 	private Date startDate;
