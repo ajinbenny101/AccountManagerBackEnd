@@ -20,6 +20,9 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.fdmgroup.springauth.utils.RSAKeyProperties;
 import com.nimbusds.jose.jwk.JWK;
@@ -28,10 +31,14 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import static org.springframework.security.config.Customizer.withDefaults;
+
+import java.util.Arrays;
 
 // security implemented following tutorial
 //https://www.youtube.com/watch?v=TeBt0Ike_Tk
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
 	
 	private final RSAKeyProperties keys;
@@ -84,6 +91,9 @@ public class SecurityConfiguration {
 		//used to allow access to h2 console, as far as can tell
 		//legacy code
 		http.headers().frameOptions().disable();
+		
+		//cors configuration to allow front end to connect
+		http.cors(withDefaults());
 
 		return http.build();
 	}
@@ -108,5 +118,17 @@ public class SecurityConfiguration {
 		JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
 		jwtConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
 		return jwtConverter;
+	}
+	
+	//cors configuration allows localhost3000 to make all requests using all headers
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
+		configuration.setAllowedMethods(Arrays.asList(CorsConfiguration.ALL));
+		configuration.setAllowedHeaders(Arrays.asList(CorsConfiguration.ALL));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 }
