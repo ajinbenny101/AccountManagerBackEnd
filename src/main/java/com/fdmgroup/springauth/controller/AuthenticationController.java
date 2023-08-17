@@ -17,7 +17,7 @@ import com.fdmgroup.springauth.service.AuthenticationService;
 //can be done in security configuration, maybe look at later
 //allows requests from non spring applications, if using react
 //would set to localhost:portnumber for whatever react is running on.
-@CrossOrigin("*")
+@CrossOrigin(origins="*")
 public class AuthenticationController {
 	
 	//used to call register and log in methods
