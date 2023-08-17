@@ -3,6 +3,7 @@ package com.fdmgroup.springauth.dto;
 import com.fdmgroup.springauth.model.Consultants;
 
 public class NewQualificationsDto {
+	private int id;
 	private String qualificationType;
 
     private int dateAwarded;
@@ -19,7 +20,19 @@ public class NewQualificationsDto {
 
     
 
-    public NewQualificationsDto() {
+    public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public NewQualificationsDto() {
 
         super();
 
