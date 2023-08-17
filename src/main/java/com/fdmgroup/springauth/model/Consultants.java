@@ -161,12 +161,12 @@ public class Consultants {
 		this.type = type;
 	}
 
-	public List<Geoflex> getGeoFlex() {
-		return geoflex;
+	public List<Interests> getInterests() {
+		return interests;
 	}
 
-	public void setGeoFlex(List<Geoflex> geoFlex) {
-		this.geoflex = geoFlex;
+	public void setInterests(List<Interests> interests) {
+		this.interests = interests;
 	}
 
 	public List<Qualifications> getQualifications() {
