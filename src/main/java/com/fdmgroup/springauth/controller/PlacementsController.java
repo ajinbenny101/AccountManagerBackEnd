@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fdmgroup.springauth.dto.NewPlacementsDto;
 import com.fdmgroup.springauth.exceptions.ExistsException;
 import com.fdmgroup.springauth.exceptions.NotFoundException;
+import com.fdmgroup.springauth.mapper.PlacementsMapper;
 import com.fdmgroup.springauth.model.Placements;
 import com.fdmgroup.springauth.service.PlacementsService;
 
@@ -25,10 +27,12 @@ import com.fdmgroup.springauth.service.PlacementsService;
 public class PlacementsController {
 
     private final PlacementsService placementsService;
+    private final PlacementsMapper placementMapper;
 
-    public PlacementsController(PlacementsService placementsService) {
+    public PlacementsController(PlacementsService placementsService, PlacementsMapper placementMapper) {
         super();
         this.placementsService = placementsService;
+        this.placementMapper = placementMapper;
     }
 
     @GetMapping
@@ -62,15 +66,17 @@ public class PlacementsController {
     }
 
     @PostMapping
-    public ResponseEntity<Placements> addPlacement(@RequestBody Placements placement) throws ExistsException{
+    public ResponseEntity<Placements> addPlacement(@RequestBody NewPlacementsDto placementDto) throws ExistsException{
         // Implement logic to add a new placement using placementsService
-        Placements addedPlacement = placementsService.addPlacement(placement);
+        Placements addedPlacement = placementsService.addPlacement(placementMapper.toEntity(placementDto));
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(addedPlacement.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(addedPlacement);
+        return ResponseEntity
+        		.created(location)
+        		.body(addedPlacement);
     }
 
     @DeleteMapping("/{id}")
