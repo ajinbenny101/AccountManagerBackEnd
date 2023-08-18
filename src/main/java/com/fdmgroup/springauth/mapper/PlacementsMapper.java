@@ -41,6 +41,8 @@ public class PlacementsMapper {
 		newPlacement.setEndDate(placementDto.getEndDate());
 		newPlacement.setLocation(placementDto.getLocation());
 		newPlacement.setOngoing(placementDto.getOngoing());
+		newPlacement.setPostedOn(placementDto.getPostedOn());
+		newPlacement.setPlacementFilledOn(placementDto.getPlacementFilledOn());
 		
 		//consultant
 		try {

@@ -20,7 +20,25 @@ public class NewPlacementsDto {
 	private List<Skills> skills;
 	private JobField jobField;
 	private Streams stream;
+	private Date postedOn;
+	private Date placementFilledOn;
 	
+	public Date getPostedOn() {
+		return postedOn;
+	}
+
+	public void setPostedOn(Date postedOn) {
+		this.postedOn = postedOn;
+	}
+
+	public Date getPlacementFilledOn() {
+		return placementFilledOn;
+	}
+
+	public void setPlacementFilledOn(Date placementFilledOn) {
+		this.placementFilledOn = placementFilledOn;
+	}
+
 	public NewPlacementsDto() {
 		super();
 	}
