@@ -54,9 +54,10 @@ public class PlacementsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Placements> updatePlacement(@PathVariable int id, @RequestBody Placements placement)throws NotFoundException {
+    public ResponseEntity<Placements> updatePlacement(@PathVariable int id, @RequestBody NewPlacementsDto placementDto)throws NotFoundException {
         // Implement logic to update placement by id using placementsService
-        placement.setId(id);
+        Placements placement = placementMapper.toEntity(placementDto);
+    	placement.setId(id);
         Placements updatedPlacement = placementsService.updatePlacement(placement);
         if (updatedPlacement != null) {
             return ResponseEntity.status(HttpStatus.OK).body(updatedPlacement);

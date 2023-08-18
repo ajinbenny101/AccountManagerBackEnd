@@ -64,11 +64,16 @@ public class QualificationsController {
 			.body(addedQualification);
 	}
 	
-	@PutMapping("/id")
-	public ResponseEntity<Qualifications> updateQualification(@PathVariable int id, @RequestBody Qualifications qualification){
+	@PutMapping("/{id}")
+	public ResponseEntity<Qualifications> updateQualification(@PathVariable int id, @RequestBody NewQualificationsDto qualificationDto){
+		Qualifications qualification = qualificationMapper.toEntity(qualificationDto);
 		qualification.setId(id);
 		Qualifications updatedQualification = qualificationsService.updateQualification(qualification);
-		return ResponseEntity.status(HttpStatus.OK).body(updatedQualification);
+		if (updatedQualification != null) {	
+			return ResponseEntity.status(HttpStatus.OK).body(updatedQualification);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
 	
 	@DeleteMapping("/{id}")
