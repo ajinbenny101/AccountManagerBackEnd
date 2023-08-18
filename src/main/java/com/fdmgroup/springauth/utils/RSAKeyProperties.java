@@ -6,6 +6,7 @@ import java.security.interfaces.RSAPublicKey;
 
 import org.springframework.stereotype.Component;
 
+//class to store both keys
 @Component
 public class RSAKeyProperties {
 
@@ -13,7 +14,9 @@ public class RSAKeyProperties {
 	private RSAPrivateKey privateKey;
 	
 	public RSAKeyProperties() {
+		//uses static method from key generator utility
 		KeyPair pair = KeyGeneratorUtility.generateRsaKey();
+		//casting generic key to rsa key
 		this.publicKey = (RSAPublicKey) pair.getPublic();
 		this.privateKey = (RSAPrivateKey) pair.getPrivate();
 	}

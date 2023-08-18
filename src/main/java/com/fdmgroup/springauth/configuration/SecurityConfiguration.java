@@ -41,8 +41,10 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfiguration {
 	
+	//class that stores keys use in this class to generate jwt
 	private final RSAKeyProperties keys;
 	
+	//constructor injects the keys into our configuration
 	public SecurityConfiguration(RSAKeyProperties keys) {
 		this.keys = keys;
 	}
@@ -80,11 +82,15 @@ public class SecurityConfiguration {
 			auth.anyRequest().authenticated();
 		});
 		
-		
+		//tells our filter chain to use jwt auth setting 
+		//the roles to match spring naming standard
+		//role conversion uses jwtAuthenticationConverter
 		http
 		.oauth2ResourceServer()
 		.jwt()
 		.jwtAuthenticationConverter(jwtAuthenticationConverter());
+		
+		//stateless session
 		http
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -98,18 +104,21 @@ public class SecurityConfiguration {
 		return http.build();
 	}
 	
+	//decodes jwt to authenticate user
 	@Bean
 	public JwtDecoder jwtDecoder() {
 		return NimbusJwtDecoder.withPublicKey(keys.getPublicKey()).build();
 	}
 	
+	//used to generate jwt
 	@Bean
 	public JwtEncoder jwtEncoder() {
 		JWK jwk = new RSAKey.Builder(keys.getPublicKey()).privateKey(keys.getPrivateKey()).build();
 		JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
 		return new NimbusJwtEncoder(jwks);
 	}
-
+	
+	//converts jwt authorities into spring specific form eg, ROLE_USER
 	@Bean
 	public JwtAuthenticationConverter jwtAuthenticationConverter() {
 		JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
