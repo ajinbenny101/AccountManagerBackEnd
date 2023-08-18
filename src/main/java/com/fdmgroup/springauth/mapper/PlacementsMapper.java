@@ -43,6 +43,7 @@ public class PlacementsMapper {
 		newPlacement.setOngoing(placementDto.getOngoing());
 		
 		//consultant
+		try {
 		Consultants consultantReturn;
 		Consultants consultant1 = placementDto.getConsultant();
 		Optional<Consultants> optConsultant = consultantRepo.findById(consultant1.getId());
@@ -51,9 +52,12 @@ public class PlacementsMapper {
 		} else {
 			consultantReturn = placementDto.getConsultant();
 		}
-		newPlacement.setConsultant(consultantReturn);
+		newPlacement.setConsultant(consultantReturn);} catch (NullPointerException e){
+			
+		};
 		
 		//skills
+		try {
 		List<Skills> skillsReturn = new ArrayList<>();
 		List<Skills> skill1 = placementDto.getSkills();
 		for (Skills skill: skill1) {
@@ -64,9 +68,12 @@ public class PlacementsMapper {
 				skillsReturn.add(skill);
 			}
 		}
-		newPlacement.setSkills(skillsReturn);
+		newPlacement.setSkills(skillsReturn);} catch (NullPointerException e){
+			
+		};
 		
 		//jobField
+		try {
 		JobField jobFieldReturn;
 		JobField jobField1 = placementDto.getJobField();
 		Optional<JobField> optJobField = jobFieldRepo.findById(jobField1.getId());
@@ -75,9 +82,12 @@ public class PlacementsMapper {
 		} else {
 			jobFieldReturn = placementDto.getJobField();
 		}
-		newPlacement.setJobField(jobFieldReturn);
+		newPlacement.setJobField(jobFieldReturn);} catch (NullPointerException e) {
+			
+		};
 		
 		//stream
+		try {
 		Streams streamReturn;
 		Streams stream1 = placementDto.getStream();
 		Optional<Streams> optStream = streamsRepo.findByStreamCode(stream1.getStreamCode());
@@ -86,7 +96,10 @@ public class PlacementsMapper {
 		} else {
 			streamReturn = placementDto.getStream();
 		}
-		newPlacement.setStream(streamReturn);
+		newPlacement.setStream(streamReturn);} catch (NullPointerException e) {
+			
+		};
+		
 		return newPlacement;
 	}
 	

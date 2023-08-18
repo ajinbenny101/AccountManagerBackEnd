@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fdmgroup.springauth.dto.NewQualificationsDto;
+import com.fdmgroup.springauth.mapper.QualificationsMapper;
 import com.fdmgroup.springauth.model.Qualifications;
 import com.fdmgroup.springauth.service.QualificationsService;
 
@@ -23,10 +25,12 @@ import com.fdmgroup.springauth.service.QualificationsService;
 public class QualificationsController {
 	
 	private final QualificationsService qualificationsService;
+	private final QualificationsMapper qualificationMapper;
 	
-	public QualificationsController(QualificationsService qualificationsService) {
+	public QualificationsController(QualificationsService qualificationsService, QualificationsMapper qualificationMapper) {
 		super();
 		this.qualificationsService = qualificationsService;
+		this.qualificationMapper = qualificationMapper;
 	}
 	
 	@GetMapping
@@ -47,8 +51,8 @@ public class QualificationsController {
 //	@GetMapping("/placement/{id}")
 	
 	@PostMapping
-	public ResponseEntity<Qualifications> addQualification(@RequestBody Qualifications qualification) {
-		Qualifications addedQualification = qualificationsService.AddQualification(qualification);
+	public ResponseEntity<Qualifications> addQualification(@RequestBody NewQualificationsDto qualificationDto) {
+		Qualifications addedQualification = qualificationsService.AddQualification(qualificationMapper.toEntity(qualificationDto));
 		
 		URI location = ServletUriComponentsBuilder
 				   .fromCurrentRequest()
@@ -60,11 +64,16 @@ public class QualificationsController {
 			.body(addedQualification);
 	}
 	
-	@PutMapping("/id")
-	public ResponseEntity<Qualifications> updateQualification(@PathVariable int id, @RequestBody Qualifications qualification){
+	@PutMapping("/{id}")
+	public ResponseEntity<Qualifications> updateQualification(@PathVariable int id, @RequestBody NewQualificationsDto qualificationDto){
+		Qualifications qualification = qualificationMapper.toEntity(qualificationDto);
 		qualification.setId(id);
 		Qualifications updatedQualification = qualificationsService.updateQualification(qualification);
-		return ResponseEntity.status(HttpStatus.OK).body(updatedQualification);
+		if (updatedQualification != null) {	
+			return ResponseEntity.status(HttpStatus.OK).body(updatedQualification);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
 	}
 	
 	@DeleteMapping("/{id}")
