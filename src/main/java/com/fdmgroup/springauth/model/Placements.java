@@ -34,10 +34,10 @@ public class Placements {
 	private Date endDate;
 	//@Column(name = "expected_end_date")
 	//private String expectedEndDate;
-	//@Column(name = "posted_on")
-	//private String postedOn;
-	//@Column(name = "placement_filled_on")
-	//private String placementFilledOn;
+	@Column(name = "posted_on")
+	private Date postedOn;
+	@Column(name = "placement_filled_on")
+	private Date placementFilledOn;
 	private String location;
 	private byte ongoing;
 	@ManyToOne
@@ -67,7 +67,7 @@ public class Placements {
 	}
 
 	public Placements(int id, String nameOfCompany, String jobTitle, Date startDate, Date endDate,
-			/*String expectedEndDate, String postedOn, String placementFilledOn,*/ String location, byte ongoing,
+			/*String expectedEndDate,*/ Date postedOn, Date placementFilledOn, String location, byte ongoing,
 			Consultants consultants) {
 		super();
 		this.id = id;
@@ -76,11 +76,11 @@ public class Placements {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		//this.expectedEndDate = expectedEndDate;
-		//this.postedOn = postedOn;
-		//this.placementFilledOn = placementFilledOn;
+		this.postedOn = postedOn;
+		this.placementFilledOn = placementFilledOn;
 		this.location = location;
 		this.ongoing = ongoing;
-		this.consultant = consultant;
+		this.consultant = consultants;
 	}
 	
 	@JsonIgnore
@@ -156,21 +156,21 @@ public class Placements {
 		//this.expectedEndDate = expectedEndDate;
 	//}
 
-	//public String getPostedOn() {
-		//return postedOn;
-	//}
+	public Date getPostedOn() {
+		return postedOn;
+	}
 
-	//public void setPostedOn(String postedOn) {
-		//this.postedOn = postedOn;
-	//}
+	public void setPostedOn(Date postedOn) {
+		this.postedOn = postedOn;
+	}
 
-	//public String getPlacementFilledOn() {
-		//return placementFilledOn;
-	//}
+	public Date getPlacementFilledOn() {
+		return placementFilledOn;
+	}
 
-	//public void setPlacementFilledOn(String placementFilledOn) {
-		//this.placementFilledOn = placementFilledOn;
-	//}
+	public void setPlacementFilledOn(Date placementFilledOn) {
+		this.placementFilledOn = placementFilledOn;
+	}
 
 	public String getLocation() {
 		return location;
