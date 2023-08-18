@@ -34,9 +34,11 @@ public class AuthenticationService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	////ddetermines if we want a jwt
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
+	//after we are authenticated to log in generates a token
 	@Autowired
 	private TokenService tokenService;
 	
@@ -54,14 +56,22 @@ public class AuthenticationService {
 		return userRepository.save(new ApplicationUser(0, username, encodedPassword, authorities));
 	}
 	
+	
+	//returns login response,
+	//authentication manager checks username and password
+	//then token service generates token
 	public LoginResponseDTO loginUser(String username, String password) {
 		try {
+			//throws authentication exception if credentials wrong
+			//authentication manager configured in security configuration
 			Authentication auth = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(username, password)
 			);
 			
+			//creates token if no exception thrown
 			String token = tokenService.generateJWT(auth);
 			
+			//returns log in response dto with user and token
 			return new LoginResponseDTO(userRepository.findByUsername(username).get(), token);
 		
 		} catch (AuthenticationException e) {

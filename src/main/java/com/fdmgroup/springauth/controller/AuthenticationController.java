@@ -24,11 +24,13 @@ public class AuthenticationController {
 	@Autowired
 	private AuthenticationService authenticationService;
 	
+	//calls services register user method
 	@PostMapping("/register")
 	public ApplicationUser registerUser(@RequestBody RegistrationDTO body) {
 		return authenticationService.registerUser(body.getUsername(), body.getPassword());
 	}
 	
+	//calls services log in user method
 	@PostMapping("/login")
 	public LoginResponseDTO loginUser(@RequestBody RegistrationDTO body) {
 		return authenticationService.loginUser(body.getUsername(), body.getPassword());

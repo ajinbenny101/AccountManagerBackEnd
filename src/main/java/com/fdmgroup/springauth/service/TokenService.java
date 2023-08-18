@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 
+//this service is what actually generates out jwt
 @Service
 public class TokenService {
 
@@ -23,12 +24,15 @@ public class TokenService {
 	
 	public String generateJWT(Authentication auth){
 		
+		//time
 		Instant now = Instant.now();
 		
+		//gets authorities to be encoded
 		String scope = auth.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(" "));
 		
+		//auth . get name encodes username
 		JwtClaimsSet claims = JwtClaimsSet.builder()
 				.issuer("self")
 				.issuedAt(now)
@@ -36,6 +40,7 @@ public class TokenService {
 				.claim("roles", scope)
 				.build();
 		
+		//builds jwt using jwt encoder
 		return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 	}
 	
