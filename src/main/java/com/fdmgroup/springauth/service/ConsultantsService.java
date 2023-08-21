@@ -8,16 +8,22 @@ import org.springframework.stereotype.Service;
 import com.fdmgroup.springauth.exceptions.ExistsException;
 import com.fdmgroup.springauth.exceptions.NotFoundException;
 import com.fdmgroup.springauth.model.Consultants;
+import com.fdmgroup.springauth.model.Placements;
+import com.fdmgroup.springauth.model.Qualifications;
+import com.fdmgroup.springauth.model.Skills;
 import com.fdmgroup.springauth.repository.ConsultantsRepository;
+import com.fdmgroup.springauth.repository.PlacementsRepository;
 
 
 
 @Service
 public class ConsultantsService {
 	private final ConsultantsRepository consultantsRepo;
+	private final PlacementsRepository placementsRepo;
 	
-	public ConsultantsService(ConsultantsRepository consultantsRepo) {
+	public ConsultantsService(ConsultantsRepository consultantsRepo, PlacementsRepository placementsRepo) {
         this.consultantsRepo = consultantsRepo;
+        this.placementsRepo = placementsRepo;
     }
 	
 public List<Consultants> allConsultants(){
@@ -112,7 +118,20 @@ public List<Consultants> allConsultants(){
 //			            .count();
 //		}
 		
-		public List<Consultants> getBeachedConsultants(){
+		public List<Consultants> getConsultantsforPlacement(int placementId){
+			Placements placement = placementsRepo.findById(placementId).get();
+			List<Skills> desiredSkills = placement.getSkills();
+			
+			return consultantsRepo.findBySkillsIn(desiredSkills);
+		}
+		
+		public List<Consultants> getConsultantsByQualifications(List<Qualifications> qualifications){
+			List<Consultants> consultantsWithQualifications = consultantsRepo.findByQualificationsIn(qualifications);
+			return consultantsWithQualifications;
+		}
+	 
+	 	
+	 	public List<Consultants> getBeachedConsultants(){
 			return consultantsRepo.findConsultantsWithLatestNonOngoingPlacement();
 		}
 		
