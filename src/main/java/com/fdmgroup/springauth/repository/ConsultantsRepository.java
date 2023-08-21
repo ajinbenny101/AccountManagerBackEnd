@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.fdmgroup.springauth.model.Consultants;
+import com.fdmgroup.springauth.model.Qualifications;
+import com.fdmgroup.springauth.model.Skills;
 
 
 public interface ConsultantsRepository extends JpaRepository<Consultants, Integer> {
@@ -29,5 +31,9 @@ public interface ConsultantsRepository extends JpaRepository<Consultants, Intege
             "    SELECT 1 FROM c.placements p " +
             "    WHERE p.ongoing = true" +
             ") OR c.placements IS EMPTY")
-	List<Consultants> findConsultantsWithLatestNonOngoingPlacement();
+    List<Consultants> findConsultantsWithLatestNonOngoingPlacement();
+    
+    List<Consultants> findBySkillsIn(List<Skills> skills);
+    
+    List<Consultants> findByQualificationsIn(List<Qualifications> qualifications);
 }

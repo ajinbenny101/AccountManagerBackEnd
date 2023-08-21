@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.fdmgroup.springauth.exceptions.ExistsException;
 import com.fdmgroup.springauth.exceptions.NotFoundException;
 import com.fdmgroup.springauth.model.Consultants;
+import com.fdmgroup.springauth.model.Qualifications;
 import com.fdmgroup.springauth.service.ConsultantsService;
 
 
@@ -114,5 +115,29 @@ public class ConsultantsController {
 				       .status(HttpStatus.OK)
 				       .body(consultantsService.getBeachedConsultants());
 	 }
+	 
+	 @GetMapping("/findConsultants/{placementId}")
+	 public ResponseEntity<List<Consultants>> getOptimalConsultants(@PathVariable int placementId){
+	        List<Consultants> consultants = consultantsService.getConsultantsforPlacement(placementId);
+
+	        if (!consultants.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.OK).body(consultants);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        }
+	 }
+
+		@PostMapping("/findConsultantsByQualifications")
+		public ResponseEntity<List<Consultants>> findByQualifications(@RequestBody List<Qualifications> qualifications) {
+	        List<Consultants> searchResults = consultantsService.getConsultantsByQualifications(qualifications);
+
+	        if (!searchResults.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.OK).body(searchResults);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        }
+	        
+	    }
+	 
 
 }
