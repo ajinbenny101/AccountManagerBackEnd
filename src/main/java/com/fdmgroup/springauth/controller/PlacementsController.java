@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -19,6 +20,7 @@ import com.fdmgroup.springauth.dto.NewPlacementsDto;
 import com.fdmgroup.springauth.exceptions.ExistsException;
 import com.fdmgroup.springauth.exceptions.NotFoundException;
 import com.fdmgroup.springauth.mapper.PlacementsMapper;
+import com.fdmgroup.springauth.model.JobField;
 import com.fdmgroup.springauth.model.Placements;
 import com.fdmgroup.springauth.service.PlacementsService;
 
@@ -85,5 +87,28 @@ public class PlacementsController {
         // Implement logic to delete placement by id using placementsService
         placementsService.deletePlacementById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    
+    
+    @GetMapping("/search")
+    public ResponseEntity<List<Placements>> searchPlacements(@RequestParam("status") String status) {
+        List<Placements> placements;
+
+        if (status.equalsIgnoreCase("upcoming")) {
+            placements = placementsService.getUpcomingPlacements();
+        } else if (status.equalsIgnoreCase("notFilled")) {
+            placements = placementsService.getNotFilledPlacements();
+        } else {
+            return ResponseEntity.badRequest().build(); // Invalid status parameter
+        }
+
+        return ResponseEntity.ok(placements);
+    }
+    @GetMapping("/search/byJobField")
+    public ResponseEntity<List<Placements>> searchPlacementsByJobField(@RequestParam int jobFieldId) {
+        JobField jobField = new JobField();
+        jobField.setId(jobFieldId);
+        List<Placements> placements = placementsService.getPlacementsByJobField(jobField);
+        return new ResponseEntity<>(placements, HttpStatus.OK);
     }
 }
