@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.fdmgroup.springauth.model.Consultants;
+import com.fdmgroup.springauth.model.Interests;
 import com.fdmgroup.springauth.model.Qualifications;
 import com.fdmgroup.springauth.model.Skills;
+import com.fdmgroup.springauth.model.Streams;
 
 
 public interface ConsultantsRepository extends JpaRepository<Consultants, Integer> {
@@ -36,4 +38,8 @@ public interface ConsultantsRepository extends JpaRepository<Consultants, Intege
     List<Consultants> findBySkillsIn(List<Skills> skills);
     
     List<Consultants> findByQualificationsIn(List<Qualifications> qualifications);
+    
+    List<Consultants> findByStream(Streams stream);
+
+	List<Consultants> findByInterestsIn(List<Interests> interests);
 }

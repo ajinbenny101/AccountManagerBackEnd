@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service;
 import com.fdmgroup.springauth.exceptions.ExistsException;
 import com.fdmgroup.springauth.exceptions.NotFoundException;
 import com.fdmgroup.springauth.model.Consultants;
+import com.fdmgroup.springauth.model.Interests;
 import com.fdmgroup.springauth.model.Placements;
 import com.fdmgroup.springauth.model.Qualifications;
 import com.fdmgroup.springauth.model.Skills;
+import com.fdmgroup.springauth.model.Streams;
 import com.fdmgroup.springauth.repository.ConsultantsRepository;
 import com.fdmgroup.springauth.repository.PlacementsRepository;
+import com.fdmgroup.springauth.repository.StreamsRepository;
 
 
 
@@ -20,10 +23,12 @@ import com.fdmgroup.springauth.repository.PlacementsRepository;
 public class ConsultantsService {
 	private final ConsultantsRepository consultantsRepo;
 	private final PlacementsRepository placementsRepo;
+	private final StreamsRepository streamsRepo;
 	
-	public ConsultantsService(ConsultantsRepository consultantsRepo, PlacementsRepository placementsRepo) {
+	public ConsultantsService(ConsultantsRepository consultantsRepo, PlacementsRepository placementsRepo, StreamsRepository streamsRepo) {
         this.consultantsRepo = consultantsRepo;
         this.placementsRepo = placementsRepo;
+        this.streamsRepo = streamsRepo;
     }
 	
 public List<Consultants> allConsultants(){
@@ -134,8 +139,21 @@ public List<Consultants> allConsultants(){
 	 	public List<Consultants> getBeachedConsultants(){
 			return consultantsRepo.findConsultantsWithLatestNonOngoingPlacement();
 		}
+	 	
+	 	public List<Consultants> getConsultantsByStream(String streamCode) {
+	 		Streams stream = streamsRepo.findByStreamCode(streamCode).get();
+	 		return consultantsRepo.findByStream(stream);
+	 	}
 		
-		
+		public List<Consultants> getConsultantsBySkills(List<Skills> skills) {
+			List<Consultants> consultantsWithSkills = consultantsRepo.findBySkillsIn(skills);
+			return consultantsWithSkills;
+		}
+
+		public List<Consultants> getConsultantsByInterests(List<Interests> interests) {
+			List<Consultants> consultantsWithInterests = consultantsRepo.findByInterestsIn(interests);
+			return consultantsWithInterests;
+		}
 
 }
 	
