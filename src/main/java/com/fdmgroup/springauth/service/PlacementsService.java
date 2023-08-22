@@ -1,5 +1,6 @@
 package com.fdmgroup.springauth.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.fdmgroup.springauth.exceptions.ExistsException;
 import com.fdmgroup.springauth.exceptions.NotFoundException;
+import com.fdmgroup.springauth.model.JobField;
 import com.fdmgroup.springauth.model.Placements;
 import com.fdmgroup.springauth.repository.PlacementsRepository;
 @Service
@@ -66,4 +68,17 @@ public class PlacementsService {
     			throw new NotFoundException("No Placement with id  " + id + " too delete");
     		}
     }
+    
+    public List<Placements> getUpcomingPlacements() {
+        Date currentDate = new Date(); 
+        return placementsRepo.findByStartDateAfter(currentDate);
+    }
+
+    public List<Placements> getNotFilledPlacements() {
+        return placementsRepo.findByPlacementFilledOnIsNull();
+    }
+    public List<Placements> getPlacementsByJobField(JobField jobField) {
+        return placementsRepo.findByJobField(jobField);
+    }
+
 }
