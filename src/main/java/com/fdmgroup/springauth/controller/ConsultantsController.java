@@ -19,7 +19,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.fdmgroup.springauth.exceptions.ExistsException;
 import com.fdmgroup.springauth.exceptions.NotFoundException;
 import com.fdmgroup.springauth.model.Consultants;
+import com.fdmgroup.springauth.model.Interests;
 import com.fdmgroup.springauth.model.Qualifications;
+import com.fdmgroup.springauth.model.Skills;
 import com.fdmgroup.springauth.service.ConsultantsService;
 
 
@@ -125,6 +127,11 @@ public class ConsultantsController {
 	        } else {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	        }
+	        
+	        //make sure they're beached
+	        // make sure they're on the same stream???
+	        //Make sure future placement?
+	        
 	 }
 
 		@PostMapping("/findConsultantsByQualifications")
@@ -138,6 +145,40 @@ public class ConsultantsController {
 	        }
 	        
 	    }
-	 
+		
+		@GetMapping("/findConsultantsByStream/{streamCode}")
+			public ResponseEntity<List<Consultants>> getConsultantsByStream(@PathVariable String streamCode) {
+				List<Consultants> consultants = consultantsService.getConsultantsByStream(streamCode);
+
+		        if (!consultants.isEmpty()) {
+		            return ResponseEntity.status(HttpStatus.OK).body(consultants);
+		        } else {
+		            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		        }
+			}
+		
+		@PostMapping("/findConsultantsBySkills")
+		public ResponseEntity<List<Consultants>> getConsultantsBySkills(@RequestBody List<Skills> skills)
+		{
+	        List<Consultants> searchResults = consultantsService.getConsultantsBySkills(skills);
+
+	        if (!searchResults.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.OK).body(searchResults);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        }
+		}
+		
+		@PostMapping("/findConsultantsByInterests")
+		public ResponseEntity<List<Consultants>> getConsultantsByInterests(@RequestBody List<Interests> interests)
+		{
+	        List<Consultants> searchResults = consultantsService.getConsultantsByInterests(interests);
+
+	        if (!searchResults.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.OK).body(searchResults);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        }
+		}
 
 }
