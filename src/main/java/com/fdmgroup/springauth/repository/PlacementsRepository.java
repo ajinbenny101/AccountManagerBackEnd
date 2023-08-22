@@ -16,7 +16,7 @@ public interface PlacementsRepository extends JpaRepository<Placements, Integer>
 	        String nameOfCompany, String jobTitle, Date startDate, Date endDate,
 	        String location);
 	 List<Placements> findByStartDateAfter(Date date);
-	 List<Placements> findByOngoing(byte ongoing);
+	 List<Placements> findByPlacementFilledOnIsNull();
 	 List<Placements> findByJobField(JobField jobField);
 
 

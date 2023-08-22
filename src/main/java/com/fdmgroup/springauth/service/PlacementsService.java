@@ -75,7 +75,7 @@ public class PlacementsService {
     }
 
     public List<Placements> getNotFilledPlacements() {
-        return placementsRepo.findByOngoing((byte) 0);
+        return placementsRepo.findByPlacementFilledOnIsNull();
     }
     public List<Placements> getPlacementsByJobField(JobField jobField) {
         return placementsRepo.findByJobField(jobField);
