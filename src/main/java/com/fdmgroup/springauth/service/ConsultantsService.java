@@ -1,10 +1,12 @@
 package com.fdmgroup.springauth.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.fdmgroup.springauth.dto.ConsultantsDto;
 import com.fdmgroup.springauth.exceptions.ExistsException;
 import com.fdmgroup.springauth.exceptions.NotFoundException;
 import com.fdmgroup.springauth.model.Consultants;
@@ -130,6 +132,30 @@ public List<Consultants> allConsultants(){
 			return consultantsRepo.findBySkillsIn(desiredSkills);
 		}
 		
+		public List<Consultants> getConsultantsByCriteria(ConsultantsDto consultantDto){
+			List<Consultants> beachedConsultants = consultantsRepo.findConsultantsWithLatestNonOngoingPlacement();
+			//Check getByGeoflexIdIn may not be right in JPA 
+			List<Consultants> geoflexConsultants = consultantsRepo.findByGeoflexIdIn(consultantDto.getGeoflex());
+			//Unlikely to work, how is it finding the qualifcation from the dto 
+			List<String> qualificationType = new ArrayList<String>();
+			for(Qualifications qualification : consultantDto.getQualifications()) {
+				qualificationType.add(qualification.getQualificationType());
+			}
+			List<Consultants> qualifiedConsultants = consultantsRepo.findByQualificationsQualificationTypeIn(qualificationType);
+			List<String> qualificationName = new ArrayList<String>();
+			for(Qualifications qualification : consultantDto.getQualifications()) {
+				qualificationType.add(qualification.getQualificationName());
+			}
+			List<Consultants> qualifiedTypeConsultants = consultantsRepo.findByQualificationsQualificationNameIn(qualificationName);
+			//List<Consultants> qualifiedNameConsultants = 
+			
+			List<Consultants> skillsConsulants = consultantsRepo.findBySkillsIdIn(consultantDto.getSkills());
+			List<Consultants> streamConsultants = consultantsRepo.findByStream(consultantDto.getStream());
+			List<Consultants> interestsConsultants = consultantsRepo.findByInterestsInterestCodeIn(consultantDto.getInterests());
+			//maybe get all the lists of things then merge into a set or other data structure so only take duplicates?????
+			return null;
+		}
+		
 		public List<Consultants> getConsultantsByQualifications(List<Qualifications> qualifications){
 			List<Consultants> consultantsWithQualifications = consultantsRepo.findByQualificationsIn(qualifications);
 			return consultantsWithQualifications;
@@ -150,10 +176,12 @@ public List<Consultants> allConsultants(){
 			return consultantsWithSkills;
 		}
 
-		public List<Consultants> getConsultantsByInterests(List<Interests> interests) {
-			List<Consultants> consultantsWithInterests = consultantsRepo.findByInterestsIn(interests);
+		public List<Consultants> getConsultantsByInterests(List<String> interests) {
+			List<Consultants> consultantsWithInterests = consultantsRepo.findByInterestsInterestCodeIn(interests);
 			return consultantsWithInterests;
 		}
+		
+		
 
 }
 	

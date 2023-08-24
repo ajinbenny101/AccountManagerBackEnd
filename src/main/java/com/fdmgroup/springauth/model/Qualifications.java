@@ -102,4 +102,14 @@ public class Qualifications {
 	public void setConsultant(Consultants consultant) {
 		this.consultant = consultant;
 	}
+
+	public String getQualificationName() {
+		return qualificationName;
+	}
+
+	public void setQualificationName(String qualificationName) {
+		this.qualificationName = qualificationName;
+	}
+	
+	
 }

@@ -19,7 +19,7 @@ public interface ConsultantsRepository extends JpaRepository<Consultants, Intege
 	Optional<List<Consultants>>findByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
 	Optional<List<Consultants>>findByFirstNameIgnoreCaseOrLastNameIgnoreCase(String firstName, String lastName);
 	List<Consultants> findByGeoflexId(int geoflexId);
-	
+	List<Consultants> findByGeoflexIdIn(List<Integer> geoflexId);
 //	//Will only work with consultants who have past placements, need to refactor to include consultants who have had no placements
 //	@Query("SELECT c FROM consultants c " +
 //	           "WHERE p.ongoing = false " +
@@ -41,5 +41,15 @@ public interface ConsultantsRepository extends JpaRepository<Consultants, Intege
     
     List<Consultants> findByStream(Streams stream);
 
-	List<Consultants> findByInterestsIn(List<Interests> interests);
+	//List<Consultants> findByInterestsIn(List<Interests> interests);
+
+	List<Consultants> findByQualificationsIdIn(List<Integer> qualifications);
+
+	List<Consultants> findBySkillsIdIn(List<Integer> skills);
+
+	List<Consultants> findByQualificationsQualificationNameIn(List<String> qualificationName);
+
+	List<Consultants> findByQualificationsQualificationTypeIn(List<String> qualificationType);
+
+	List<Consultants> findByInterestsInterestCodeIn(List<String> interests);
 }
