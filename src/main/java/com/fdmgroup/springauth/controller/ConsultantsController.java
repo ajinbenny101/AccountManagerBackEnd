@@ -1,6 +1,7 @@
 package com.fdmgroup.springauth.controller;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,9 @@ import com.fdmgroup.springauth.model.Consultants;
 import com.fdmgroup.springauth.model.Interests;
 import com.fdmgroup.springauth.model.Qualifications;
 import com.fdmgroup.springauth.model.Skills;
+import com.fdmgroup.springauth.model.SkillsWrapper;
 import com.fdmgroup.springauth.service.ConsultantsService;
+import com.fdmgroup.springauth.service.SkillsService;
 
 
 
@@ -32,10 +35,12 @@ import com.fdmgroup.springauth.service.ConsultantsService;
 public class ConsultantsController {
 	
 	private final ConsultantsService consultantsService;
+	private final SkillsService skillsService;
 	
-	public ConsultantsController(ConsultantsService consultantsService) {
+	public ConsultantsController(ConsultantsService consultantsService, SkillsService skillsService) {
 		super();
 		this.consultantsService = consultantsService;
+		this.skillsService = skillsService;
 	}
 	
 	
@@ -157,10 +162,36 @@ public class ConsultantsController {
 		        }
 			}
 		
+//		@PostMapping("/findConsultantsBySkills")
+//		public ResponseEntity<List<Consultants>> getConsultantsBySkills(@RequestBody List<Skills> skills)
+//		{
+//	        List<Consultants> searchResults = consultantsService.getConsultantsBySkills(skills);
+//
+//	        if (!searchResults.isEmpty()) {
+//	            return ResponseEntity.status(HttpStatus.OK).body(searchResults);
+//	        } else {
+//	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//	        }
+//		}
+		
 		@PostMapping("/findConsultantsBySkills")
-		public ResponseEntity<List<Consultants>> getConsultantsBySkills(@RequestBody List<Skills> skills)
+		public ResponseEntity<List<Consultants>> getConsultantsBySkills(@RequestBody SkillsWrapper skillsWrapper)
 		{
-	        List<Consultants> searchResults = consultantsService.getConsultantsBySkills(skills);
+			System.out.println("Here");
+			List<String> skillsStrings = skillsWrapper.getSkills();
+			
+			List<Skills> skills = new ArrayList<>();
+	        
+	        for (String skill: skillsStrings) {
+	        	List<Skills> foundSkill = skillsService.getSkillBySkillName(skill);
+	        	for (Skills innerSkill: foundSkill) {
+	        		skills.add(innerSkill);
+	        	}
+	        }
+			
+	        System.out.println(skills);
+	        
+			List<Consultants> searchResults = consultantsService.getConsultantsBySkills(skills);
 
 	        if (!searchResults.isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.OK).body(searchResults);

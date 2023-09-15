@@ -49,4 +49,12 @@ public class SkillsService {
 			//TODO error
 		}
 	}
+	
+	public List<Skills> getSkillBySkillName(String name) {
+		Optional<List<Skills>> optionalSkill = skillsRepo.findBySkillName(name);
+		if (optionalSkill.isPresent()) {
+			return optionalSkill.get();
+		} else return null;
+		
+	}
 }
